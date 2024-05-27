@@ -78,7 +78,7 @@ const SignUp = () => {
 
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">
-          SignUp
+          Sign Up
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
@@ -106,14 +106,14 @@ const SignUp = () => {
             disabled={loading}
             className="bg-lime-800 text-white rounded-lg uppercase p-3 font-semibold hover:opacity-95 disabled:opacity-80"
           >
-            Sign Up
+            {loading ? "Loading..." : "Sign up"}
           </button>
         </form>
         <div className="flex gap-2 mt-5">
-          <p>Have an account ?</p>
+          <p>Already have an account ?</p>
           <Link to="/sign-in">
             <span className="text-blue-800 font-semibold">
-              {loading ? "Loading..." : "Sign Up"}
+              Sign in
             </span>
           </Link>
         </div>
