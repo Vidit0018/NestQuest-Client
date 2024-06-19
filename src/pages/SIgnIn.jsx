@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OAuth from "../components/OAuth";
 
 
 const SignIn = () => {
@@ -12,24 +13,25 @@ const SignIn = () => {
   // const [loading, setloading] = useState(false);
   const {loading,error} = useSelector((state)=>state.user)
   
+  const navigate = useNavigate();
   const SuccessToast = ()=>{
-    toast.success("Sign In Successful! ",);
+      signInSuccessToast();
       setTimeout(() => {
         redirectionToast();
       }, 2500);
       setTimeout(() => {
         navigate("/");
-      }, 4500);
+      }, 4000);
+  }
+  const signInSuccessToast = () =>{
+    toast.success('Sign In Successful !')
   }
   const errorToast = () => {
     toast.error("Bad Credentials");
   };
   const redirectionToast = () => {
-    toast.info("Redirecting to Home Page", {
-      
-    });
+    toast.info("Redirecting to Home Page");
   };
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -73,18 +75,21 @@ const SignIn = () => {
   };
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+<ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
+
 
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">
@@ -111,6 +116,7 @@ const SignIn = () => {
           >
             {loading ? "Loading..." : "Sign In"}
           </button>
+        <OAuth></OAuth>
         </form>
         <div className="flex gap-2 mt-5">
           <p>Don't have an account ?</p>

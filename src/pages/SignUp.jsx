@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
   const [formData, setformData] = useState({});
@@ -9,7 +10,7 @@ const SignUp = () => {
   const [loading, setloading] = useState(false);
   
   const SuccessToast = ()=>{
-    toast.success("Sign Up Successful! ",);
+      signupSuccessToast();
       setTimeout(() => {
         redirectionToast();
       }, 2500);
@@ -17,13 +18,14 @@ const SignUp = () => {
         navigate("/sign-in");
       }, 4500);
   }
+  const signupSuccessToast = ()=>{
+    toast.success("Sign Up Successful! ");
+  }
   const errorToast = () => {
     toast.error("Could Not SignUp");
   };
   const redirectionToast = () => {
-    toast.info("Redirecting to Sign in Page", {
-      
-    });
+    toast.info("Redirecting to Sign in Page");
   };
   const navigate = useNavigate();
 
@@ -108,6 +110,7 @@ const SignUp = () => {
           >
             {loading ? "Loading..." : "Sign up"}
           </button>
+        <OAuth></OAuth>
         </form>
         <div className="flex gap-2 mt-5">
           <p>Already have an account ?</p>
