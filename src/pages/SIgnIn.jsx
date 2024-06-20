@@ -45,7 +45,7 @@ const SignIn = () => {
     e.preventDefault();
     try {
       // setloading(true);
-      dispatch(signInStart);
+      dispatch(signInStart());
       const res = await fetch("api/auth/signin", {
         method: "POST",
         headers: {
