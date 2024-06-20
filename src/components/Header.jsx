@@ -41,9 +41,9 @@ const Header = () => {
             </li>
           </Link>
 
-          <Link to="/sign-in">
+          <Link to="/profile">
             {currentUser ? (
-              <img src={currentUser.avatar} className="h-10 rounded-full  w-10"></img>
+              <img src={currentUser.avatar} className="h-10 rounded-full  w-10 object-cover"></img>
             ) : (
               <li className="truncate text-white text-sm sm:text-l hover:text-white cursor-pointer bg-lime-800 rounded-md  px-4 py-2 f  ">
                 Sign in
