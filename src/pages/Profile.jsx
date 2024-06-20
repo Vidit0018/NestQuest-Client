@@ -1,18 +1,75 @@
-import React from "react";
+import React, { useState ,useEffect } from "react";
 import { useSelector } from "react-redux";
-const Profile = () => {
+import { app } from "../firebase";
+import { useRef } from "react";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
+const Profile = () => { 
+  const fileref = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
+  const [file,setfile] = useState(null);
+  const [filePerc, setFilePerc] = useState(0);
+  const [fileError , setFileError] = useState(false);
+  const [formData, setFormData] = useState({});
+  console.log(formData); 
+  
+
+  useEffect(()=>{
+    if(file){
+      handleFileUpload(file);
+    }
+  },[file])
+  const handleFileUpload = (file) =>{
+      setFileError(false)
+      const storage = getStorage(app);
+      const fileName = new Date().getTime()+ file.name;
+      const storageRef = ref(storage,fileName);
+      const uploadTask = uploadBytesResumable(storageRef,file);
+      try {
+        
+        uploadTask.on('state_changed',
+          (snapshot)=>{
+            const progress = (snapshot.bytesTransferred/ snapshot.totalBytes)* 100 ;
+            const roundedValue = Math.round(progress);
+            setFilePerc(roundedValue)
+          },
+        
+          (error)=>{
+            setFileError(true)
+          },
+          ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then
+            ((downloadURL)=>{
+              setFormData({...formData, avatar: downloadURL})
+            })
+          },
+          );
+      } catch (error) {
+        console.log(error);
+      }
+      
+   
+  }
+  console.log(fileError)
   return (
     <div className="p-3 max-w-lg  mx-auto">
       <h1 className="text-3xl font-bold text-center my-7 text-lime-800">
         Profile
       </h1>
       <form className="flex flex-col  gap-4 ">
+        <input type="file" ref={fileref} className="hidden" accept="image/*" onChange={((e)=> setfile(e.target.files[0]))}/>
         <img
-          src={currentUser.avatar}
+          src={formData.avatar || currentUser.avatar}
+          onClick={()=> fileref.current.click()}
           className="rounded-full object-cover h-24 w-24 cursor-pointer drop-shadow-2xl self-center"
           alt="profile"
         ></img>
+        <p className="text-center">
+          {fileError ? 
+          (<span className="text-red-500" >Error Uploading Image (image must be less than 2 mb)</span>): filePerc >0 && filePerc < 100 && fileError=== false ?(<span className="text-green-800">{`Uploading ${filePerc}%`}</span>) :
+            filePerc === 100 ? (<span className="text-green-800">Image Uploaded Successfully</span>) : ('')
+        }
+        </p>
         <input
           type="text"
           placeholder="Username"
