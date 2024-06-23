@@ -1,7 +1,6 @@
 import {
   getDownloadURL,
   getStorage,
-  uploadBytes,
   uploadBytesResumable,
 
 } from "firebase/storage";
@@ -9,8 +8,6 @@ import React from "react";
 import { app } from "../firebase";
 import { useState } from "react";
 import { ref } from "firebase/storage";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { MdDescription } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const CreateListing = () => {
