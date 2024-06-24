@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 .bg-div{
-    height: 150vh;
+    height:fit-content;
+    min-height: 100vh;
 }

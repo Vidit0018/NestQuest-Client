@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import OAuth from "../components/OAuth";
 
 
@@ -15,23 +13,11 @@ const SignIn = () => {
   
   const navigate = useNavigate();
   const SuccessToast = ()=>{
-      signInSuccessToast();
-      setTimeout(() => {
-        redirectionToast();
-      }, 2500);
       setTimeout(() => {
         navigate("/");
-      }, 4000);
+      }, 2000);
   }
-  const signInSuccessToast = () =>{
-    toast.success('Sign In Successful !')
-  }
-  const errorToast = () => {
-    toast.error("Bad Credentials");
-  };
-  const redirectionToast = () => {
-    toast.info("Redirecting to Home Page");
-  };
+  
 
   const dispatch = useDispatch();
 
@@ -54,11 +40,11 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      SuccessToast();
       if (data.success === false) {
         // setError(data.message);
         // setloading(false);
         dispatch((signInFailure(data.message)))
-        errorToast();
         return;
       }
 
@@ -66,7 +52,6 @@ const SignIn = () => {
       // setloading(false);
       // setError(null);
       dispatch(signInSuccess(data));
-      SuccessToast();
     } catch (error) {
       // setloading(false);
       // setError(error.message);
@@ -75,21 +60,6 @@ const SignIn = () => {
   };
   return (
     <>
-<ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
-
 
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">
@@ -127,7 +97,6 @@ theme="light"
           </Link>
         </div>
         {error && <p className="text-red-500 mt-5">{error}</p>}
-        <button onClick={SuccessToast}>Check Toast Funcitoning</button>
       </div>
     </>
   );

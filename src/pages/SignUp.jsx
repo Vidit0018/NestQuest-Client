@@ -65,18 +65,7 @@ const SignUp = () => {
   };
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+      
 
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">

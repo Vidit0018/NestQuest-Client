@@ -16,9 +16,12 @@ export default function App(){
     <BrowserRouter>
       <Header/>
       
-      <div className="absolute inset-0 -z-10 bg-div w-full bg-lime-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-lime-400 opacity-20 blur-[100px]">
+      <div className=" mt-[68px] absolute inset-0 -z-10 bg-div w-full bg-lime-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-lime-400 opacity-20 blur-[100px]">
         
-        </div></div>
+        
+        
+        
+        </div>
       <Routes>
         
         <Route path='/' element={<Home/>}/>
@@ -32,6 +35,7 @@ export default function App(){
           < Route path='/update-listing/:listingId' element={<UpdateListing/>}/>
         </Route>
       </Routes>
+        </div>
     </BrowserRouter>
     
   )
