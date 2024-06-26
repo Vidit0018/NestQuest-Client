@@ -16,7 +16,8 @@ const SearchPage = () => {
     order: "desc",
   });
   const [loading, setLoading] = useState(false);
-  const [listings, setListings] = useState(false);
+  const [listings, setListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
 
   console.log(listings);
   useEffect(() => {
@@ -49,11 +50,19 @@ const SearchPage = () => {
     }
 
     const fetchListings = async () => {
+
       setLoading(true);
+      setShowMore(false)
       try {
         const searchQuery = urlParams.toString();
         const res = await fetch(`/api/listing/get?${searchQuery}`);
         const data = await res.json();
+        if(data.length >8){
+          setShowMore(true)
+        }
+        else{
+          setShowMore(false)
+        }
         setListings(data);
         setLoading(false);
       } catch (error) {
@@ -105,8 +114,26 @@ const SearchPage = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+  const onShowMoreClick = async()=>{
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings; 
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('startIndex',startIndex);
+    const searchQuery = urlParams.toString();
+    try {
+      const res = await fetch(`/api/listing/get?${searchQuery}`);
+      const data =await res.json();
+      if(data.length<9){
+        setShowMore(false)
+      }
+      setListings([...listings,...data])
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
-    <div className="flex flex-col md:flex-row ">
+    <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
@@ -224,17 +251,23 @@ const SearchPage = () => {
             <LinearProgress color="success" />
           </Box>
         )}
-        <div className="p-7 flex flex-wrap gap-8">
+        <div className="p-4 flex flex-wrap gap-6">
           {!loading && listings.length === 0 && (
             <p className="text-xl text-red-700 font-semibold">
               No Listing Found
             </p>
           )}
+
           {!loading && listings && listings.map((listing) =>(
             <ListingItem key={listing._id} listing={listing}>
 
             </ListingItem>
           ))}
+          {showMore && (
+            <button onClick={()=>{onShowMoreClick();}
+          } className="text-lime-800 hover:underline text-center w-full">Show More</button>
+          )}
+           
         </div>
       </div>
     </div>
