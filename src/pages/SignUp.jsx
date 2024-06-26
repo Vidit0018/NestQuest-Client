@@ -13,10 +13,10 @@ const SignUp = () => {
       signupSuccessToast();
       setTimeout(() => {
         redirectionToast();
-      }, 2500);
+      }, 500);
       setTimeout(() => {
         navigate("/sign-in");
-      }, 4500);
+      }, 1000);
   }
   const signupSuccessToast = ()=>{
     toast.success("Sign Up Successful! ");
