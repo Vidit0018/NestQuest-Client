@@ -55,7 +55,7 @@ const SearchPage = () => {
       setShowMore(false)
       try {
         const searchQuery = urlParams.toString();
-        const res = await fetch(`/api/listing/get?${searchQuery}`);
+        const res = await fetch(`https://nestquest-server-1.onrender.com/api/listing/get?${searchQuery}`);
         const data = await res.json();
         if(data.length >8){
           setShowMore(true)
@@ -121,7 +121,7 @@ const SearchPage = () => {
     urlParams.set('startIndex',startIndex);
     const searchQuery = urlParams.toString();
     try {
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
+      const res = await fetch(`https://nestquest-server-1.onrender.com/api/listing/get?${searchQuery}`);
       const data =await res.json();
       if(data.length<9){
         setShowMore(false)

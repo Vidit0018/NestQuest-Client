@@ -38,7 +38,7 @@ import {
     useEffect(()=>{
         const fetchListing = async()=>{
             const listingId = params.listingId;
-            const res = await fetch(`/api/listing/get/${listingId}`,{
+            const res = await fetch(`https://nestquest-server-1.onrender.com/api/listing/get/${listingId}`,{
                 method: 'GET',
             });
             const data = await res.json();
@@ -144,7 +144,7 @@ import {
         }
         setLoading(true);
         setError(false);
-        const res = await fetch(`/api/listing/update/${params.listingId}`,{
+        const res = await fetch(`https://nestquest-server-1.onrender.com/api/listing/update/${params.listingId}`,{
           method:'POST',
           headers: {
             'Content-Type' : 'application/json',
