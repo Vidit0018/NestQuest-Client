@@ -6,7 +6,8 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target:'http://localhost:3000',
+        target: 'https://nestquest-server-1.onrender.com/',
+        changeOrigin: true,
 
         secure:false,
       }
