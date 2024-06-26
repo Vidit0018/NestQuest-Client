@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 const SearchPage = () => {
   const navigate = useNavigate();
   const [sidebarData, setsidebarData] = useState({
@@ -14,87 +18,93 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState(false);
 
-  console.log(listings)
-  useEffect (()=>{
-    const urlParams =  new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    const typeFromUrl = urlParams.get('type');
-    const parkingFromUrl = urlParams.get('parking');
-    const furnishedFromUrl = urlParams.get('furnished');
-    const offerFromUrl = urlParams.get('offer');
-    const sortFromUrl = urlParams.get('sort');
-    const orderFromUrl = urlParams.get('order');
-    if( 
+  console.log(listings);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const typeFromUrl = urlParams.get("type");
+    const parkingFromUrl = urlParams.get("parking");
+    const furnishedFromUrl = urlParams.get("furnished");
+    const offerFromUrl = urlParams.get("offer");
+    const sortFromUrl = urlParams.get("sort");
+    const orderFromUrl = urlParams.get("order");
+    if (
       searchTermFromUrl ||
       typeFromUrl ||
       parkingFromUrl ||
       furnishedFromUrl ||
       offerFromUrl ||
-      sortFromUrl|| 
+      sortFromUrl ||
       orderFromUrl
-    ){
+    ) {
       setsidebarData({
-        searchTerm : searchTermFromUrl || '',
-        type: typeFromUrl || 'all',
-        parking: parkingFromUrl === 'true' ? true : false,
-        furnished: furnishedFromUrl === 'true' ? true : false,
-        offer: offerFromUrl === 'true' ? true :false,
-        sort: sortFromUrl || 'createdAt',
-        order: orderFromUrl || 'desc',
-      })
+        searchTerm: searchTermFromUrl || "",
+        type: typeFromUrl || "all",
+        parking: parkingFromUrl === "true" ? true : false,
+        furnished: furnishedFromUrl === "true" ? true : false,
+        offer: offerFromUrl === "true" ? true : false,
+        sort: sortFromUrl || "createdAt",
+        order: orderFromUrl || "desc",
+      });
     }
 
-    const fetchListings = async () =>{
-      setLoading(true)
-      try { 
+    const fetchListings = async () => {
+      setLoading(true);
+      try {
         const searchQuery = urlParams.toString();
-        const res= await fetch(`/api/listing/get?${searchQuery}`);
+        const res = await fetch(`/api/listing/get?${searchQuery}`);
         const data = await res.json();
         setListings(data);
-        setLoading(false)
-
+        setLoading(false);
       } catch (error) {
-          console.log(error)
-      } 
-    }
+        console.log(error);
+      }
+    };
     fetchListings();
-  },[location.search])
+  }, [location.search]);
   const handleChange = (e) => {
-    if(e.target.id === 'all' || e.target.id === 'rent' || e.target.id === 'sale'){
-     setsidebarData({...sidebarData , type: e.target.id}) 
+    if (
+      e.target.id === "all" ||
+      e.target.id === "rent" ||
+      e.target.id === "sale"
+    ) {
+      setsidebarData({ ...sidebarData, type: e.target.id });
     }
-    if(e.target.id === 'searchTerm'){
-      setsidebarData({...sidebarData, searchTerm: e.target.value})
+    if (e.target.id === "searchTerm") {
+      setsidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
-    if(e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer'
-    ){
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
+    ) {
       setsidebarData({
-        ...sidebarData , [e.target.id] : e.target.checked || e.target.checked === 'true' ? true : false,
-      })
+        ...sidebarData,
+        [e.target.id]:
+          e.target.checked || e.target.checked === "true" ? true : false,
+      });
     }
 
-    if(e.target.id === 'sort_order'){
-      const sort = e.target.value.split('_')[0] || 'created_at';
-      const order = e.target.value.split('_')[1] || 'desc' ;
+    if (e.target.id === "sort_order") {
+      const sort = e.target.value.split("_")[0] || "created_at";
+      const order = e.target.value.split("_")[1] || "desc";
 
-      setsidebarData({...sidebarData , sort ,order})
-     }
-
+      setsidebarData({ ...sidebarData, sort, order });
+    }
   };
-  const handleSubmit =(e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
-    urlParams.set('searchTerm',sidebarData.searchTerm);
-    urlParams.set('type',sidebarData.type);
-    urlParams.set('parking',sidebarData.parking);
-    urlParams.set('furnished',sidebarData.furnished);
-    urlParams.set('offer',sidebarData.offer);
-    urlParams.set('sort',sidebarData.sort);
-    urlParams.set('order',sidebarData.order);
+    urlParams.set("searchTerm", sidebarData.searchTerm);
+    urlParams.set("type", sidebarData.type);
+    urlParams.set("parking", sidebarData.parking);
+    urlParams.set("furnished", sidebarData.furnished);
+    urlParams.set("offer", sidebarData.offer);
+    urlParams.set("sort", sidebarData.sort);
+    urlParams.set("order", sidebarData.order);
     const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`)
-
-  }
+    navigate(`/search?${searchQuery}`);
+  };
   return (
     <div className="flex flex-col md:flex-row ">
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
@@ -190,28 +200,42 @@ const SearchPage = () => {
               name=""
               id="sort_order"
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              defaultValue={"created_at_desc"}
               className="border border-lime-800   rounded-lg w-fit p-2 focus:outline-none "
             >
-              <option value='regularPrice_desc'>Price High to Low</option>
-              <option value='regularPrice_asc'>Price low to Low</option>
-              <option value='createdAt_desc'>Latest</option>
-              <option value='createdAt_asc'>Oldest</option>
+              <option value="regularPrice_desc">Price High to Low</option>
+              <option value="regularPrice_asc">Price low to Low</option>
+              <option value="createdAt_desc">Latest</option>
+              <option value="createdAt_asc">Oldest</option>
             </select>
           </div>
-          <button
-            
-            className="bg-lime-800 text-white p-3 rounded-lg uppercase hover:opacity-95"
-          >
+          <button className="bg-lime-800 text-white p-3 rounded-lg uppercase hover:opacity-95">
             {" "}
             Search
           </button>
         </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className="text-3xl font-bold border-b p-3 text-lime-700 mt-5">
           Listing Results :
         </h1>
+        {loading && (
+          <Box sx={{ width: "100%" }}>
+            <LinearProgress color="success" />
+          </Box>
+        )}
+        <div className="p-7 flex flex-wrap gap-8">
+          {!loading && listings.length === 0 && (
+            <p className="text-xl text-red-700 font-semibold">
+              No Listing Found
+            </p>
+          )}
+          {!loading && listings && listings.map((listing) =>(
+            <ListingItem key={listing._id} listing={listing}>
+
+            </ListingItem>
+          ))}
+        </div>
       </div>
     </div>
   );

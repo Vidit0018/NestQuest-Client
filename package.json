@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@material-tailwind/react": "^2.1.9",
+    "@mui/joy": "^5.0.0-beta.36",
+    "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "firebase": "^10.12.2",
     "react": "^18.2.0",
@@ -23,6 +28,7 @@
     "swiper": "^11.1.4"
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
