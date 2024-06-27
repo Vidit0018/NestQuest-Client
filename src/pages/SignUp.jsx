@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import OAuth from "../components/OAuth";
 
 const SignUp = () => {
@@ -10,23 +9,18 @@ const SignUp = () => {
   const [loading, setloading] = useState(false);
   
   const SuccessToast = ()=>{
-      signupSuccessToast();
-      setTimeout(() => {
-        redirectionToast();
-      }, 500);
+    toast.success('Sign Up Successful',{
+      style: {
+        background: '#333',
+        color: '#fff',
+      },
+    });
+      
       setTimeout(() => {
         navigate("/sign-in");
-      }, 1000);
+      }, 1200);
   }
-  const signupSuccessToast = ()=>{
-    toast.success("Sign Up Successful! ");
-  }
-  const errorToast = () => {
-    toast.error("Could Not SignUp");
-  };
-  const redirectionToast = () => {
-    toast.info("Redirecting to Sign in Page");
-  };
+ 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -48,6 +42,12 @@ const SignUp = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        toast.error("Could not Sing Up",{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        })
         setError(data.message);
         setloading(false);
         return;
@@ -58,14 +58,20 @@ const SignUp = () => {
       setError(null);
       SuccessToast();
     } catch (error) {
+      toast.error("Could not Sing Up",{
+        style: {
+          background: '#333',
+          color: '#fff',
+        },
+      })
       setloading(false);
       setError(error.message);
-      errorToast();
+            
     }
   };
   return (
     <>
-      
+        <Toaster position="bottom-center"/>
 
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">

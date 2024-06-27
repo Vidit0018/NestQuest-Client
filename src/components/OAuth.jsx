@@ -3,28 +3,26 @@ import GoogleIcon from "../assets/icons/google.png";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { signInSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 const OAuth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const redirectionToast = () => {
-      toast.info('Redirecting to Home Page');
-    };
+  
     const SuccessToast = ()=>{
-      toast.success('Successful SignUp !');
-        setTimeout(() => {
-          redirectionToast();
-        }, 500);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+      toast.success('Google SingIn Successful',{
+        style: {
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      setTimeout(() => {
+        navigate("/");
+        
+      }, 1200);
     }
-    const errorToast = () => {
-      toast.error('Bad Credentials');
-    };
+    
 
     const handleGoogleClick = async () => {
         try {
@@ -47,14 +45,20 @@ const OAuth = () => {
         dispatch(signInSuccess(data));
         SuccessToast();
         } catch (error) {
+          toast.error("Something went wrong.",{
+            style: {
+              background: '#333',
+              color: '#fff',
+            },
+          })
         console.log(error);
         console.log("Couldnt signup with google ");
-        errorToast();
         }
     };
     return (
         <>
-       
+             <Toaster position="bottom-center"/>
+
         <button
             onClick={handleGoogleClick}
             type="button"

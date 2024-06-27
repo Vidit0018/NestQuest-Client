@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { app } from "../firebase";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 import {
   getDownloadURL,
   getStorage,
@@ -86,14 +87,32 @@ const Profile = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        toast.error("Error Updating",{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        })
         dispatch(updateUserFailure(data.message));
         return;
       }
       console.log(data);
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      toast.success('Updated Profile',{
+        style: {
+          background: '#333',
+          color: '#fff',
+        },
+      });
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+      toast.error("Error Updating",{
+        style: {
+          background: '#333',
+          color: '#fff',
+        },
+      })
     }
   };
   const handleDeleteUser = async () => {
@@ -163,7 +182,9 @@ const Profile = () => {
   }
   console.log(UserListings.length)
   return (
+    
     <div className="p-3 max-w-lg  mx-auto">
+        <Toaster position="bottom-center"/>
       <h1 className="text-3xl font-bold text-center my-7 text-lime-800">
         Profile
       </h1>

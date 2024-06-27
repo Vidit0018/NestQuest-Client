@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const SignIn = () => {
   const [formData, setformData] = useState({});
@@ -13,9 +13,15 @@ const SignIn = () => {
   
   const navigate = useNavigate();
   const SuccessToast = ()=>{
+    toast.success('Sign In Successful',{
+      style: {
+        background: '#333',
+        color: '#fff',
+      },
+    });
       setTimeout(() => {
         navigate("/");
-      }, 1000);
+      }, 1200);
   }
   
 
@@ -40,27 +46,39 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      SuccessToast();
       if (data.success === false) {
         // setError(data.message);
         // setloading(false);
         dispatch((signInFailure(data.message)))
+        toast.error("Wrong Credentials.",{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        })
         return;
       }
-
+      
       console.log(data);
       // setloading(false);
       // setError(null);
       dispatch(signInSuccess(data));
+      SuccessToast();
     } catch (error) {
       // setloading(false);
       // setError(error.message);
+      toast.error("Something went wrong.",{
+            style: {
+              background: '#333',
+              color: '#fff',
+            },
+          })
       dispatch(signInFailure(error.message))
     }
   };
   return (
     <>
-
+        <Toaster position="bottom-center"/>
       <div className="p-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-lime-800 text-center font-bold my-7 ">
           Sign In
