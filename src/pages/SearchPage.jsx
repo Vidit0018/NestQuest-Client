@@ -120,12 +120,10 @@ const SearchPage = () => {
     const startIndex = numberOfListings;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
-    
     const searchQuery = urlParams.toString();
     try {
       const res = await fetch(
-        `https://nestquest-server-1.onrender.com/api/listing/get?${searchQuery}`,
-        { credentials: "include" }
+        `https://nestquest-server-1.onrender.com/api/listing/get?${searchQuery}`,{credentials: 'include'}
       );
       const data = await res.json();
       if (data.length < 9) {
