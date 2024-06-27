@@ -17,10 +17,10 @@ const OAuth = () => {
       toast.success('Successful SignUp !');
         setTimeout(() => {
           redirectionToast();
-        }, 2500);
+        }, 500);
         setTimeout(() => {
           navigate("/");
-        }, 4500);
+        }, 1000);
     }
     const errorToast = () => {
       toast.error('Bad Credentials');
@@ -32,7 +32,7 @@ const OAuth = () => {
         const auth = getAuth(app);
 
         const result = await signInWithPopup(auth, provider);
-        const res = await fetch("/api/auth/google", {
+        const res = await fetch("https://nestquest-server-1.onrender.com/api/auth/google", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
