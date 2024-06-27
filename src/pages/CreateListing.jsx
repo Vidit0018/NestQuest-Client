@@ -139,7 +139,8 @@ const CreateListing = () => {
         body: JSON.stringify({
           ...formData,
           userRef: currentUser._id
-        })
+        }),
+        credentials: 'include'
       })
       const data = await res.json();
       console.log("listing created")

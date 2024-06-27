@@ -84,7 +84,9 @@ const Profile = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
+      
       const data = await res.json();
       if (data.success === false) {
         toast.error("Error Updating",{
@@ -120,6 +122,7 @@ const Profile = () => {
       dispatch(deleteUserStart());
       const res = await fetch(`https://nestquest-server-1.onrender.com/api/user/delete/${currentUser._id}`, {
         method: "Delete",
+        credentials: 'include'
       });
       const data = await res.json();
 
@@ -135,7 +138,9 @@ const Profile = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutStart());
-      const res = await fetch("https://nestquest-server-1.onrender.com/api/auth/signout");
+      const res = await fetch("https://nestquest-server-1.onrender.com/api/auth/signout",{
+        credentials: 'include'
+      });
       const data = await res.json();
       if (data.success === false) {
         dispatch(signOutFailure(data.message));
@@ -150,7 +155,9 @@ const Profile = () => {
     try {
       setShowListingsError(false);
       const res = await fetch(`https://nestquest-server-1.onrender.com/api/user/listings/${currentUser._id}`,{
-        method: 'GET'
+        method: 'GET',
+        credentials: 'include'
+
       });
       const data = await res.json();
       setUSerListing(data);
@@ -167,7 +174,8 @@ const Profile = () => {
   const handleListingDelete = async(id) =>{
     try {
       const res=  await fetch(`https://nestquest-server-1.onrender.com/api/listing/delete/${id}`,{
-        method :'DELETE'
+        method :'DELETE',
+        credentials: 'include'
       });
       const data = await res.json()
       if(data.success===false){
